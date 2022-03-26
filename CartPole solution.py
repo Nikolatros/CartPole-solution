@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class Cart_pole():
@@ -103,16 +102,19 @@ class Agent():
         return action_index
 
     def estimate_progress(self, n):
-        """Plot with average tick value for the last N value
+        """Return data for plotting with average value for the last N ticks
 
         Args:
             n (_int_): number of last values
+            
+        Returns:
+            _list_: data for plotting
         """        
         stat = []
         for i in range(len(self.ticks_line)):
             if i >= n-1:
                 stat.append(np.sum(self.ticks_line[i-n+1:i+1])/n)
-        plt.plot(range(len(stat)), stat)
+        return [list(range(len(stat))), stat]
 
     def add_state_if_missing(self, processed_state):
         """Generate Q-values nulls if absent in the strategy
@@ -127,7 +129,8 @@ class Agent():
 
     def fit(self):
         """Creates and improves the action policy
-        """        
+        """
+        progress = 0 # for future visualization
         for epoch in range(self.epochs):
             state = self.env.render()
             processed_state = self.state_processing(state)
@@ -155,7 +158,6 @@ class Agent():
                     epsilon *= 0.99
             else:
                 self.ticks_line.append(ticks)
-                progress = 0
                 if (epoch + 1) % (self.epochs/10) == 0:
                     progress += 1
                     print(progress, end='/10 ')
