@@ -67,7 +67,7 @@ class Cart_pole:
 
 class Agent:
     def __init__(self, env, epochs, learning_rate, gamma, epsilon):
-        self.env = env()
+        self.env = env
         self.strategy = dict()
         self.epochs = epochs
         self.learning_rate = learning_rate
