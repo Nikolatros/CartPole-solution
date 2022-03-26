@@ -12,8 +12,28 @@ from CPS import Agent, Cart_pole
 # Create the environment
 env = Cart_pole()
 # Create the agent
-oo7 = Agent(env=env, epochs=5000, learning_rate=0.05, gamma=0.9, epsilon=0.1)
+oo7 = Agent(env=env, epochs=10000, learning_rate=0.05, gamma=0.9, epsilon=0.1)
 # Let's train this
 oo7.fit()
+# Now can see how we did.
+oo7.play()
 
 ```
+
+### If you have matplotlib you can use the method estimate_porgress
+```python
+import matplotlib.pyplot as plt
+x, y = oo7.estimate_progress(1000)
+plt.plot(x, y)
+
+```
+
+**or**
+```python
+plt.plot(*oo7.estimate_progress(1000))
+
+```
+**and get**
+
+
+![image](https://user-images.githubusercontent.com/98982329/160242305-f928fd10-18b3-4d2f-8355-7943d0218b1c.png)
