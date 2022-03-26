@@ -9,10 +9,11 @@ class Cart_pole():
         self.total_mass = self.masspole + self.masscart
         self.length = 0.5  # actually half the pole's length
         self.polemass_length = self.masspole * self.length
-        self.force_mag = 10.0
         self.tau = 0.02  # seconds between state updates
         self.max_grad = 15 * 2 * np.pi / 360
         self.max_x = 2.4
+        # Thanks GYM https://gym.openai.com
+        # Copied from https://github.com/openai/gym/blob/master/gym/envs/classic_control/cartpole.py
         
     def render(self):
         """ Generates first environment state
@@ -20,7 +21,7 @@ class Cart_pole():
         Returns:
             _numpy.ndarray_: first state params
         """        
-        self.state = np.random.uniform(low=-0.05, high=0.05, size=(4,))
+        self.state = np.random.uniform(low=-0.05, high=0.05, size=(4,)) # Copied from https://github.com/openai/gym/blob/master/gym/envs/classic_control/cartpole.py
         return self.state
 
     def get_state(self, f):
@@ -48,6 +49,8 @@ class Cart_pole():
         x_w = temp - self.polemass_length*o_w*np.cos(o)/self.total_mass
         x_u += x_w*dt
         x += x_u*dt
+        # Thanks GYM https://gym.openai.com
+        # Copied from https://github.com/openai/gym/blob/mvaster/gym/envs/classic_control/cartpole.py
 
         self.state = [o, x, o_u, x_u]
         
