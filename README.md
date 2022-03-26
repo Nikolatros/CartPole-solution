@@ -17,8 +17,7 @@ oo7 = Agent(env=env, epochs=10000, learning_rate=0.05, gamma=0.9, epsilon=0.1)
 oo7.fit()
 # Now can see how we did.
 oo7.play()
-# output:
-# The Agent ended the game at step 69.
+# output: The Agent ended the game at step 69.
 ```
 
 ### If you have *matplotlib* you can use the method *estimate_porgress*
