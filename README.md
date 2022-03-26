@@ -6,7 +6,7 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 ### example
 
-```
+```python
 oo7 = Agent(
 env=Cart_pole,
 epochs=5000,
