@@ -20,10 +20,9 @@ oo7.fit()
 oo7.play()
 # output:  The Agent ended the game at step 51.
 # let's see how it developed.
-
 oo7.estimate_progress(1000)
-
+#output: ↓↓↓
 ```
-**output: plot with average duration of the game for 1000 previous attempts for all games**
+plot with average duration of the game for 1000 previous attempts for all games
 
 ![image](https://user-images.githubusercontent.com/98982329/160244866-44be173a-84d5-4b2c-b8f6-d2dcd7af069c.png)
