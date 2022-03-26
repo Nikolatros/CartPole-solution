@@ -8,13 +8,12 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 ### example
 
 ```python
-oo7 = Agent(
-env=Cart_pole,
-epochs=5000,
-learning_rate=0.05, 
-gamma=0.9,
-epsilon=0.1
-)
-
+from CPS import Agent, Cart_pole
+# Create the environment
+env = Cart_pole()
+# Create the agent
+oo7 = Agent(env=env, epochs=5000, learning_rate=0.05, gamma=0.9, epsilon=0.1)
+# Let's train this
 oo7.fit()
+
 ```
