@@ -9,6 +9,7 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 ```python
 from CPS import Agent, Cart_pole
+np.random.seed(42)
 # Create the environment
 env = Cart_pole()
 # Create the agent
