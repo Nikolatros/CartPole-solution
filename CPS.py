@@ -171,3 +171,35 @@ class Agent:
                 if (epoch + 1) % (self.epochs / 10) == 0:
                     progress += 1
                     print(progress, end="/10 ")
+        print()
+                    
+    def play(self):
+        state = self.env.render()
+        processed_state = self.state_processing(state)
+        self.add_state_if_missing(processed_state)
+        epsilon = self.epsilon
+        done = 0
+        ticks = 0
+        while (not done) and (ticks < 500):
+            # Get action index
+            action_index = self.make_action(processed_state)
+            f = action_index - 1
+            # Get state params
+            new_state, reward, done = self.env.get_state(f)
+            processed_new_state = self.state_processing(new_state)
+            # Update strategy
+            self.add_state_if_missing(processed_new_state)
+            max_next_q = np.max(self.strategy[processed_new_state])
+            error = (
+                reward
+                + self.gamma * max_next_q
+                - self.strategy[processed_state][action_index]
+            )
+            self.strategy[processed_state][action_index] += self.learning_rate * error
+            # Update state
+            processed_state = processed_new_state
+            # Update learn perams
+            ticks += 1
+            if ticks % 10 == 0:
+                epsilon *= 0.99
+        print(f"The Agent ended the game at step {ticks}.")
