@@ -33,7 +33,10 @@ plt.plot(x, y)
 plt.plot(*oo7.estimate_progress(1000))
 
 ```
-**and get**
+**And get**
+
+
+Average duration of the game for 1000 previous attempts for all data
 
 
 ![image](https://user-images.githubusercontent.com/98982329/160242305-f928fd10-18b3-4d2f-8355-7943d0218b1c.png)
