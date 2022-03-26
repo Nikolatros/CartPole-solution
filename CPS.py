@@ -66,17 +66,20 @@ class Cart_pole:
 
 
 class Agent:
-    def __init__(self, env, epochs, learning_rate, gamma, epsilon):
+    """Can play CartPole. Will try not to drop the pendulum and improve his result.
+    """    
+    def __init__(self, env, epochs, learning_rate, gamma, epsilon, max_ticks):
         self.env = env
         self.strategy = dict()
         self.epochs = epochs
         self.learning_rate = learning_rate
         self.gamma = gamma  # discount coefficient
         self.epsilon = epsilon  # probability of explore
+        self.max_ticks = max_ticks
         self.ticks_line = []
 
     def state_processing(self, state):
-        """Binarizes environment params to write in strategy
+        """Binarizes environment params to write in Q-table later.
         Args:
             state (_numpy.ndarray_): current state params
         Returns:
@@ -94,7 +97,7 @@ class Agent:
         return processed_state
 
     def make_action(self, processed_state):
-        """Selects an action for epsilon-greedy algorithm
+        """Selects an action for epsilon-greedy algorithm.
         Args:
             processed_state (_numpy.ndarray_): current precessed state params
         Returns:
@@ -108,7 +111,7 @@ class Agent:
         return action_index
 
     def estimate_progress(self, n):
-        """Return data for plotting with average value for the last N ticks
+        """Return data for plotting with average value for the last N ticks.
         Args:
             n (_int_): number of last values
             
@@ -122,7 +125,7 @@ class Agent:
         return [list(range(len(stat))), stat]
 
     def add_state_if_missing(self, processed_state):
-        """Generate Q-values nulls if absent in the strategy
+        """Generate Q-values nulls if absent in the Q-table.
         Args:
             processed_state (_numpy.ndarray_): current processed state params
         """
@@ -131,56 +134,16 @@ class Agent:
         except KeyError:
             self.strategy[processed_state] = [0, 0, 0]
 
-    def fit(self):
-        """Creates and improves the action policy
+    def start_game(self):
+        """Creates and improves the action Q-table.
         """
-        progress = 0  # for future visualization
-        for epoch in range(self.epochs):
-            state = self.env.render()
-            processed_state = self.state_processing(state)
-            self.add_state_if_missing(processed_state)
-            epsilon = self.epsilon
-            done = 0
-            ticks = 0
-            while (not done) and (ticks < 500):
-                # Get action index
-                action_index = self.make_action(processed_state)
-                f = action_index - 1
-                # Get state params
-                new_state, reward, done = self.env.get_state(f)
-                processed_new_state = self.state_processing(new_state)
-                # Update strategy
-                self.add_state_if_missing(processed_new_state)
-                max_next_q = np.max(self.strategy[processed_new_state])
-                error = (
-                    reward
-                    + self.gamma * max_next_q
-                    - self.strategy[processed_state][action_index]
-                )
-                self.strategy[processed_state][action_index] += (
-                    self.learning_rate * error
-                )
-                # Update state
-                processed_state = processed_new_state
-                # Update learn perams
-                ticks += 1
-                if ticks % 10 == 0:
-                    epsilon *= 0.99
-            else:
-                self.ticks_line.append(ticks)
-                if (epoch + 1) % (self.epochs / 10) == 0:
-                    progress += 1
-                    print(progress, end="/10 ")
-        print()
-                    
-    def play(self):
         state = self.env.render()
         processed_state = self.state_processing(state)
         self.add_state_if_missing(processed_state)
         epsilon = self.epsilon
         done = 0
         ticks = 0
-        while (not done) and (ticks < 500):
+        while (not done) and (ticks <= self.max_ticks):
             # Get action index
             action_index = self.make_action(processed_state)
             f = action_index - 1
@@ -195,11 +158,33 @@ class Agent:
                 + self.gamma * max_next_q
                 - self.strategy[processed_state][action_index]
             )
-            self.strategy[processed_state][action_index] += self.learning_rate * error
+            self.strategy[processed_state][action_index] += (
+                self.learning_rate * error
+            )
             # Update state
             processed_state = processed_new_state
             # Update learn perams
             ticks += 1
             if ticks % 10 == 0:
                 epsilon *= 0.99
-        print(f"The Agent ended the game at step {ticks}.")
+        else:
+            self.ticks_line.append(ticks)
+
+
+    def fit(self):
+        """Plays many games to improve improve the action Q-table.
+        """
+        self.progress = 0  # for future visualization
+        for epoch in range(self.epochs):
+            self.start_game()
+            if (epoch + 1) % (self.epochs / 10) == 0:
+                self.progress += 1
+                print(self.progress, end="/10 ")
+        print()
+    
+    def play(self):
+        """Play one game and print result
+        """
+        self.start_game()
+        print(f"The Agent ended the game at step {self.ticks_line[-1]}.")
+        
