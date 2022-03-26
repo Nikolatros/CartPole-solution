@@ -13,16 +13,16 @@ np.random.seed(43)
 # Create the environment
 env = Cart_pole()
 # Create the agent
-oo7 = Agent(env=env, epochs=10000, learning_rate=0.05, gamma=0.9, epsilon=0.1, max_ticks=500)
+oo7 = Agent(env=env, epochs=100000, learning_rate=0.05, gamma=0.9, epsilon=0.1, max_ticks=500)
 # Let's train this
 oo7.fit()
 # Now can see how we did.
 oo7.play()
-# output:  The Agent ended the game at step 51.
+# output:  The Agent ended the game at step 112.
 # let's see how it developed.
-oo7.estimate_progress(1000)
+oo7.estimate_progress(2000)
 #output: ↓↓↓
 ```
 plot with average duration of the game for 1000 previous attempts for all games
 
-![image](https://user-images.githubusercontent.com/98982329/160244866-44be173a-84d5-4b2c-b8f6-d2dcd7af069c.png)
+![image](https://user-images.githubusercontent.com/98982329/160254162-efc9ea53-b5f2-4251-976e-0432c5b91501.png)
