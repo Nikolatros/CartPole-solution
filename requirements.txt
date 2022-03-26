@@ -1,1 +1,1 @@
-nupmy
+numpy
