@@ -20,7 +20,7 @@ oo7.play()
 
 ```
 
-### If you have matplotlib you can use the method estimate_porgress
+### If you have *matplotlib* you can use the method *estimate_porgress*
 ```python
 import matplotlib.pyplot as plt
 x, y = oo7.estimate_progress(1000)
