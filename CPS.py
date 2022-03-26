@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Cart_pole:
@@ -111,18 +112,15 @@ class Agent:
         return action_index
 
     def estimate_progress(self, n):
-        """Return data for plotting with average value for the last N ticks.
+        """Plots average value for the last N ticks.
         Args:
             n (_int_): number of last values
-            
-        Returns:
-            _list_: data for plotting
         """
         stat = []
         for i in range(len(self.ticks_line)):
             if i >= n - 1:
                 stat.append(np.sum(self.ticks_line[i - n + 1 : i + 1]) / n)
-        return [list(range(len(stat))), stat]
+        plt.plot(range(len(stat)), stat)
 
     def add_state_if_missing(self, processed_state):
         """Generate Q-values nulls if absent in the Q-table.
