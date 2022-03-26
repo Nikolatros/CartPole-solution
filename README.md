@@ -9,7 +9,6 @@ A pole is attached by an un-actuated joint to a cart, which moves along a fricti
 
 ```python
 from CPS import Agent, Cart_pole
-import matplotlib.pyplot as plt
 np.random.seed(43)
 # Create the environment
 env = Cart_pole()
